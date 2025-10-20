@@ -36,3 +36,205 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* ------- Layout con sidebar fijo ------- */
+.AppLayout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: #f6f8fc;
+}
+
+/* Sidebar */
+.MenuLateral {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: linear-gradient(180deg, #ffffff, #f3f6fd);
+  border-right: 1px solid #e6e9ef;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.MenuLateral-logo {
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #111827;
+}
+.MenuLateral-nav {
+  display: grid;
+  gap: 6px;
+}
+.MenuLateral-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #475467;
+  text-decoration: none;
+}
+.MenuLateral-link:hover,
+.MenuLateral-link.active {
+  background: #eef2ff;
+  color: #1f2937;
+}
+.MenuLateral-footer {
+  margin-top: auto;
+  color: #667085;
+  font-size: 12px;
+}
+
+/* Contenido */
+.AppContent {
+  padding: 22px;
+}
+
+.PageHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.App-logo {
+  height: 48px;
+  pointer-events: none;
+}
+
+/* UI helpers */
+.Card {
+  background: #fff;
+  border: 1px solid #e6e9ef;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.06);
+}
+
+.Table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.Table th, .Table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e6e9ef;
+  text-align: left;
+  font-size: 14px;
+}
+.Table th {
+  color: #667085;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.Pill {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid #e6e9ef;
+  background: #f7f9ff;
+  color: #475467;
+}
+
+
+/* ===== Chats nice styles ===== */
+.TopRow { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+
+.ChatsList { list-style:none; margin:0; padding:0; }
+.ChatItem {
+  display:grid; grid-template-columns: 48px 1fr auto; gap:12px;
+  align-items:center; padding:12px; border-bottom:1px solid #e6e9ef; cursor:pointer;
+}
+.ChatItem:hover { background:#f7f9ff; }
+.Avatar { width:48px; height:48px; border-radius:12px; border:1px solid #e6e9ef; }
+
+.ChatText { overflow:hidden; }
+.TitleRow { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.Title { font-weight:700; color:#0b1220; }
+.Company { color:#667085; font-weight:500; }
+.Time { color:#98a2b3; font-size:12px; white-space:nowrap; }
+
+.LastMsg {
+  color:#475467; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Pills por estado */
+.Pill { display:inline-block; padding:4px 10px; border-radius:999px; font-size:12px; border:1px solid #e6e9ef; background:#f7f9ff; color:#475467; }
+.Pill--open { background:#eef2ff; color:#1d4ed8; border-color:#dbe3ff; }
+.Pill--won { background:#eaf8ef; color:#15803d; border-color:#cfeeda; }
+.Pill--lost { background:#fdecec; color:#b91c1c; border-color:#f9d3d3; }
+.Pill--pending { background:#fff7ed; color:#b45309; border-color:#ffe4cc; }
+
+
+/* Layout base con menú fijo */
+.AppLayout { display:grid; grid-template-columns:260px 1fr; min-height:100vh; background:#f6f8fc; }
+.AppContent { padding:22px; }
+
+/* Sidebar elegante */
+.MenuLateral {
+  position: sticky; top:0; height:100vh;
+  background: linear-gradient(180deg, #ffffff, #f3f6fd);
+  border-right:1px solid #e6e9ef; padding:16px;
+  display:flex; flex-direction:column;
+}
+.MenuLateral-brand {
+  display:flex; align-items:center; gap:10px; font-weight:800; color:#111827;
+  padding:8px 10px; border-radius:10px; text-decoration:none;
+}
+.MenuLateral-brand:hover { background:#eef2ff; }
+.MenuLateral-nav { display:grid; gap:6px; margin-top:10px; }
+.MenuLateral-link {
+  display:block; padding:10px 12px; border-radius:10px;
+  color:#475467; text-decoration:none;
+}
+.MenuLateral-link:hover { background:#eef2ff; color:#1f2937; }
+.MenuLateral-footer { margin-top:auto; color:#667085; font-size:12px; }
+
+/* Cards reutilizables */
+.Card {
+  background:#fff; border:1px solid #e6e9ef; border-radius:16px; padding:16px;
+  box-shadow:0 8px 20px rgba(16,24,40,.06);
+}
+
+
+.section-title{margin:0 0 10px;color:#667085;font-weight:700}
+.meta{font-size:12px;color:#667085}
+.input{background:#fff;border:1px solid #e6e9ef;border-radius:10px;padding:10px 12px;width:100%}
+.btn{background:#2563eb;color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer}
+.btn.ghost{background:#fff;border:1px solid #e6e9ef;color:#111827}
+.pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid #e6e9ef;background:#f7f9ff;color:#475467;cursor:pointer}
+.row{display:grid;gap:12px}
+
+
+
+
+.DT-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.DT-title{font-weight:700;color:#0b1220}
+.th-sortable{cursor:pointer}
+.th-inner{display:flex;align-items:center;gap:6px}
+.SortCaret{font-size:10px;color:#98a2b3}
+.row-clickable:hover{background:#f7f9ff}
+.DT-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.Pager{display:flex;align-items:center;gap:8px}
+.Pager-page{font-size:12px;color:#667085}
+
+
+.kpi-title{ color:#667085; font-size:12px; display:flex; align-items:center; gap:8px }
+.kpi-value{ font-size:26px; font-weight:800; margin:6px 0 }
+.kpis{ display:grid; gap:14px }
+.row{ display:grid; grid-template-columns: repeat(12,1fr); gap:12px }
+.col-6{ grid-column: span 6 / span 6 }
+.col-8{ grid-column: span 8 / span 8 }
+.col-4{ grid-column: span 4 / span 4 }
+
+
+body {
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #111827;
+  background-color: #f6f8fc;
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}

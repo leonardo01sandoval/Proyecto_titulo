@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.kpi-title{ color:#667085; font-size:12px }
+.kpi-value{ font-size:26px; font-weight:800; margin:6px 0 }
+.kpis{ display:grid; gap:14px }
+.row{ display:grid; grid-template-columns: repeat(12,1fr); gap:12px }
+.col-12{ grid-column: span 12 / span 12 }
+.col-8{ grid-column: span 8 / span 8 }
+.col-4{ grid-column: span 4 / span 4 }
+.Card{ background:#fff; border:1px solid #e6e9ef; border-radius:16px; padding:16px; box-shadow:0 8px 20px rgba(16,24,40,.06) }
+.Table{ width:100%; border-collapse:collapse }
+.Table th,.Table td{ padding:10px 12px; border-bottom:1px solid #e6e9ef; text-align:left }
+.Table th{ color:#667085; font-weight:600; font-size:12px }
+.section-title{ margin:0 0 10px; color:#667085; font-weight:700 }
