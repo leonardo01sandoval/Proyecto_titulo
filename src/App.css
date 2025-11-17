@@ -168,28 +168,140 @@
 
 
 /* Layout base con menú fijo */
-.AppLayout { display:grid; grid-template-columns:260px 1fr; min-height:100vh; background:#f6f8fc; }
-.AppContent { padding:22px; }
+.AppLayout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: #f6f8fc;
+}
+
+.AppContent {
+  padding: 22px;
+  position: relative;
+}
+
+/* Botón hamburguesa para móviles */
+.MenuToggleButton {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 999;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transition: all 0.2s;
+}
+
+.MenuToggleButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+/* Overlay para cerrar menú en móvil */
+.MenuOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  animation: fadeIn 0.3s ease;
+}
 
 /* Sidebar elegante */
 .MenuLateral {
-  position: sticky; top:0; height:100vh;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   background: linear-gradient(180deg, #ffffff, #f3f6fd);
-  border-right:1px solid #e6e9ef; padding:16px;
-  display:flex; flex-direction:column;
+  border-right: 1px solid #e6e9ef;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
 }
+
 .MenuLateral-brand {
-  display:flex; align-items:center; gap:10px; font-weight:800; color:#111827;
-  padding:8px 10px; border-radius:10px; text-decoration:none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  color: #111827;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
 }
-.MenuLateral-brand:hover { background:#eef2ff; }
-.MenuLateral-nav { display:grid; gap:6px; margin-top:10px; }
+
+.MenuLateral-brand:hover {
+  background: #eef2ff;
+}
+
+.MenuLateral-nav {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+
 .MenuLateral-link {
-  display:block; padding:10px 12px; border-radius:10px;
-  color:#475467; text-decoration:none;
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #475467;
+  text-decoration: none;
 }
-.MenuLateral-link:hover { background:#eef2ff; color:#1f2937; }
-.MenuLateral-footer { margin-top:auto; color:#667085; font-size:12px; }
+
+.MenuLateral-link:hover {
+  background: #eef2ff;
+  color: #1f2937;
+}
+
+.MenuLateral-footer {
+  margin-top: auto;
+  color: #667085;
+  font-size: 12px;
+}
+
+/* Responsive: Móvil */
+@media (max-width: 768px) {
+  .AppLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .MenuToggleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .MenuOverlay {
+    display: block;
+  }
+
+  .MenuLateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    z-index: 999;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .MenuLateral.open {
+    transform: translateX(0);
+  }
+
+  .AppContent {
+    padding: 80px 16px 16px 16px;
+  }
+}
 
 /* Cards reutilizables */
 .Card {

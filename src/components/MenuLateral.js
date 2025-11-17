@@ -5,25 +5,32 @@ import { FaChartBar, FaComments, FaUsers, FaTable, FaUser } from 'react-icons/fa
 import { useAuth } from '../contexts/AuthContext';
 import '../App.css';
 
-export default function MenuLateral({ onProfileClick }) {
+export default function MenuLateral({ onProfileClick, isOpen, onClose }) {
   const { currentUser } = useAuth();
 
+  const handleLinkClick = () => {
+    // Cerrar menú en móvil al hacer click en un link
+    if (window.innerWidth <= 768) {
+      onClose();
+    }
+  };
+
   return (
-    <aside className="MenuLateral">
-      <NavLink to="/" className="MenuLateral-brand">
+    <aside className={`MenuLateral ${isOpen ? 'open' : ''}`}>
+      <NavLink to="/" className="MenuLateral-brand" onClick={handleLinkClick}>
         <FaChartBar size={22} /> LLM Dashboard
       </NavLink>
       <nav className="MenuLateral-nav">
-        <NavLink to="/" end className="MenuLateral-link">
+        <NavLink to="/" end className="MenuLateral-link" onClick={handleLinkClick}>
           Dashboard
         </NavLink>
-        <NavLink to="/chats" className="MenuLateral-link">
+        <NavLink to="/chats" className="MenuLateral-link" onClick={handleLinkClick}>
           Chats
         </NavLink>
-        <NavLink to="/clientes" className="MenuLateral-link">
+        <NavLink to="/clientes" className="MenuLateral-link" onClick={handleLinkClick}>
           Clientes
         </NavLink>
-        <NavLink to="/datatable" className="MenuLateral-link">
+        <NavLink to="/datatable" className="MenuLateral-link" onClick={handleLinkClick}>
           Datos
         </NavLink>
       </nav>
