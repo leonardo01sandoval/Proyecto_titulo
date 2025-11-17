@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaUsers, FaPlus } from 'react-icons/fa';
 
 const LS_KEY = "clientes:data";
 
@@ -79,9 +80,23 @@ export const ListadoCliente = () => {
 
   return (
     <div>
+      {/* Page Header */}
+      <div className="PageHeader">
+        <div className="PageHeader-icon">
+          <FaUsers size={24} />
+        </div>
+        <div className="PageHeader-content">
+          <h1>Clientes</h1>
+          <p>Administra tu base de clientes</p>
+        </div>
+      </div>
+
       {/* Formulario */}
-      <div className="Card" style={{ marginBottom: 16 }}>
-        <div className="section-title">Crear cliente</div>
+      <div className="Card" style={{ marginBottom: 20 }}>
+        <div className="section-title">
+          <FaPlus size={14} style={{ marginRight: 8 }} />
+          Crear cliente
+        </div>
         <form onSubmit={onSubmit}>
           <div className="row" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 12 }}>
             <div>
@@ -169,12 +184,13 @@ export const ListadoCliente = () => {
             ))}
           </div>
 
-          <div style={{ marginTop: 12 }}>
+          <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
             <button className="btn" type="submit">
+              <FaPlus size={12} style={{ marginRight: 6 }} />
               Guardar cliente
             </button>
-            <span className="meta" style={{ marginLeft: 8 }}>
-              Se guarda en localStorage
+            <span className="meta">
+              Los datos se guardan localmente en tu navegador
             </span>
           </div>
         </form>
@@ -207,7 +223,7 @@ export const ListadoCliente = () => {
                   <td>{c.agentes?.length ? c.agentes.join(", ") : "—"}</td>
                   <td>{c.telefonos?.length ? c.telefonos.join(", ") : "—"}</td>
                   <td>
-                    <button className="btn ghost" onClick={() => eliminar(c.id)}>Eliminar</button>
+                    <button className="btn btn-small danger" onClick={() => eliminar(c.id)}>Eliminar</button>
                   </td>
                 </tr>
               ))

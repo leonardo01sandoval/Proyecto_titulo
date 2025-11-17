@@ -76,11 +76,11 @@ export const DataTable = ({
     <div className="Card">
       {/* Top controls */}
       <div className="DT-top">
-        <div className="DT-title">Tabla</div>
+        <div className="section-title" style={{ margin: 0 }}>Datos</div>
         {searchable && (
           <input
             className="search"
-            placeholder="Buscar…"
+            placeholder="Buscar..."
             value={q}
             onChange={(e) => { setQ(e.target.value); setPage(1); }}
           />

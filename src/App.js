@@ -9,7 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import KPI from './components/KPI';
 import { Chats } from './components/Chats';
 import { ListadoCliente } from './components/ListadoCliente';
-import { DataTable } from './components/DataTable';
+import DataTablePage from './components/DataTablePage';
 
 export default function App() {
   return (
@@ -26,7 +26,7 @@ export default function App() {
           <Route index element={<KPI />} />
           <Route path="chats" element={<Chats />} />
           <Route path="clientes" element={<ListadoCliente />} />
-          <Route path="datatable" element={<DataTable />} />
+          <Route path="datatable" element={<DataTablePage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,4 +1,5 @@
 import React from "react";
+import { FaComments } from 'react-icons/fa';
 import DataTable from "./DataTable";
 
 const conversations = [
@@ -14,23 +15,36 @@ const pill = (s) => {
 
 export const Chats = () => {
   return (
-    <DataTable
-      data={conversations}
-      searchKeys={["cliente", "empresa", "ultimo"]}
-      columns={[
-        { key: "cliente", header: "Cliente", sortable: true },
-        { key: "empresa", header: "Empresa", sortable: true },
-        { key: "ultimo", header: "Último mensaje", width: "40%" },
-        { key: "estado", header: "Estado", sortable: true, render: (r) => pill(r.estado), align: "center", width: 140 },
-        { key: "hora", header: "Hora", sortable: true, align: "right", width: 80 },
-      ]}
-      pageSize={5}
-      onRowClick={(row) => alert(`Abrir conversación ${row.id}`)}
-      rowActions={(row) => (
-        <button className="btn" onClick={(e) => { e.stopPropagation(); alert(`Asignar ${row.id}`); }}>
-          Asignar
-        </button>
-      )}
-    />
+    <div>
+      {/* Page Header */}
+      <div className="PageHeader">
+        <div className="PageHeader-icon">
+          <FaComments size={24} />
+        </div>
+        <div className="PageHeader-content">
+          <h1>Chats</h1>
+          <p>Gestiona las conversaciones con clientes</p>
+        </div>
+      </div>
+
+      <DataTable
+        data={conversations}
+        searchKeys={["cliente", "empresa", "ultimo"]}
+        columns={[
+          { key: "cliente", header: "Cliente", sortable: true },
+          { key: "empresa", header: "Empresa", sortable: true },
+          { key: "ultimo", header: "Último mensaje", width: "40%" },
+          { key: "estado", header: "Estado", sortable: true, render: (r) => pill(r.estado), align: "center", width: 140 },
+          { key: "hora", header: "Hora", sortable: true, align: "right", width: 80 },
+        ]}
+        pageSize={5}
+        onRowClick={(row) => alert(`Abrir conversación ${row.id}`)}
+        rowActions={(row) => (
+          <button className="btn btn-small" onClick={(e) => { e.stopPropagation(); alert(`Asignar ${row.id}`); }}>
+            Asignar
+          </button>
+        )}
+      />
+    </div>
   );
 };
