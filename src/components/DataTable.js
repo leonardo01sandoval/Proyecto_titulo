@@ -12,6 +12,8 @@ import React, { useMemo, useState } from "react";
  * - emptyText?: string
  * - loading?: boolean
  */
+
+
 export const DataTable = ({
   columns = [],
   data = [],
@@ -76,11 +78,11 @@ export const DataTable = ({
     <div className="Card">
       {/* Top controls */}
       <div className="DT-top">
-        <div className="section-title" style={{ margin: 0 }}>Datos</div>
+        <div className="DT-title">Tabla</div>
         {searchable && (
           <input
             className="search"
-            placeholder="Buscar..."
+            placeholder="Buscar…"
             value={q}
             onChange={(e) => { setQ(e.target.value); setPage(1); }}
           />
