@@ -1,5 +1,7 @@
 // src/contexts/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import authService from '../services/authService';
+import userService from '../services/userService';
 
 const AuthContext = createContext();
 
@@ -12,88 +14,66 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar si hay un usuario guardado en localStorage
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setCurrentUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    // Verificar si hay un token y usuario guardados
+    const initAuth = async () => {
+      const token = authService.getToken();
+
+      if (token) {
+        try {
+          // Intentar obtener los datos del usuario
+          const userData = await userService.getCurrentUserData();
+          setCurrentUser(userData);
+        } catch (error) {
+          // Si hay error, limpiar token inválido
+          authService.logout();
+        }
+      }
+
+      setLoading(false);
+    };
+
+    initAuth();
   }, []);
 
-  const login = (email, password) => {
-    // Simulación de login - En producción, esto haría una llamada a tu API
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
+  const login = async (username, password) => {
+    try {
+      const result = await authService.login(username, password);
 
-    if (user) {
-      const { password, ...userWithoutPassword } = user;
-      setCurrentUser(userWithoutPassword);
-      localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-      return { success: true };
+      if (result.success) {
+        // Obtener datos del usuario después del login
+        const userData = await userService.getCurrentUserData();
+        setCurrentUser(userData);
+        return { success: true };
+      }
+
+      return result;
+    } catch (error) {
+      return { success: false, error: 'Error al iniciar sesión' };
     }
-    return { success: false, error: 'Credenciales inválidas' };
-  };
-
-  const register = (name, email, password) => {
-    // Simulación de registro
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    if (users.find(u => u.email === email)) {
-      return { success: false, error: 'El correo ya está registrado' };
-    }
-
-    const newUser = { id: Date.now(), name, email, password };
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-
-    const { password: _, ...userWithoutPassword } = newUser;
-    setCurrentUser(userWithoutPassword);
-    localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-    return { success: true };
   };
 
   const logout = () => {
     setCurrentUser(null);
-    localStorage.removeItem('user');
+    authService.logout();
   };
 
-  const updatePassword = (currentPassword, newPassword) => {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const userIndex = users.findIndex(u => u.email === currentUser.email);
-
-    if (userIndex === -1) {
-      return { success: false, error: 'Usuario no encontrado' };
-    }
-
-    if (users[userIndex].password !== currentPassword) {
-      return { success: false, error: 'Contraseña actual incorrecta' };
-    }
-
-    users[userIndex].password = newPassword;
-    localStorage.setItem('users', JSON.stringify(users));
-    return { success: true };
+  const updatePassword = async (currentPassword, newPassword) => {
+    // Esta función dependerá de si la API tiene un endpoint para cambiar contraseña
+    return { success: false, error: 'Función no implementada en la API' };
   };
 
-  const resetPassword = (email, newPassword) => {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const userIndex = users.findIndex(u => u.email === email);
-
-    if (userIndex === -1) {
-      return { success: false, error: 'Email no encontrado' };
-    }
-
-    users[userIndex].password = newPassword;
-    localStorage.setItem('users', JSON.stringify(users));
-    return { success: true };
+  const resetPassword = async (email, newPassword) => {
+    // Esta función dependerá de si la API tiene un endpoint para resetear contraseña
+    return { success: false, error: 'Función no implementada en la API' };
   };
 
   const value = {
     currentUser,
     login,
-    register,
     logout,
     updatePassword,
-    resetPassword
+    resetPassword,
+    isAuthenticated: authService.isAuthenticated(),
   };
 
   return (

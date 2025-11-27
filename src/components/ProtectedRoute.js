@@ -2,11 +2,13 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import authService from '../services/authService';
 
 export default function ProtectedRoute({ children }) {
-  const { currentUser } = useAuth();
+  const isAuthenticated = authService.isAuthenticated();
 
-  if (!currentUser) {
+  // Si no hay token, redirigir al login
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
