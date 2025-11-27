@@ -5,18 +5,31 @@
 
 /**
  * Parsea el contenido de un mensaje humano
- * Formato: "Fono: XXX | Nombre: XXX | Mensaje: XXX"
+ * Formato: "Fono: XXX | Nombre: XXX | Mensaje: XXX | Timestamp: XXX"
  */
 export const parseHumanMessage = (content) => {
-  const phoneMatch = content.match(/Fono:\s*(\d+)/);
-  const nameMatch = content.match(/Nombre:\s*([^|]+)/);
-  const messageMatch = content.match(/Mensaje:\s*(.+)/);
-
-  return {
-    phone: phoneMatch ? phoneMatch[1].trim() : '',
-    name: nameMatch ? nameMatch[1].trim() : '',
-    message: messageMatch ? messageMatch[1].trim() : content,
+  const parts = content.split('|').map(p => p.trim());
+  const data = {
+    phone: '',
+    name: '',
+    message: '',
+    timestamp: null
   };
+
+  parts.forEach(part => {
+    if (part.includes('Fono:')) {
+      data.phone = part.replace('Fono:', '').trim();
+    } else if (part.includes('Nombre:')) {
+      data.name = part.replace('Nombre:', '').trim();
+    } else if (part.includes('Mensaje:')) {
+      data.message = part.replace('Mensaje:', '').trim();
+    } else if (part.includes('Timestamp:')) {
+      const timestampStr = part.replace('Timestamp:', '').trim();
+      data.timestamp = parseInt(timestampStr);
+    }
+  });
+
+  return data;
 };
 
 /**
@@ -123,15 +136,21 @@ export const transformSingleChat = (chat, index) => {
   const firstHumanMessage = messages.find((m) => m.type === 'human');
   const humanInfo = firstHumanMessage
     ? parseHumanMessage(firstHumanMessage.data?.content || '')
-    : { phone: '', name: '', message: '' };
+    : { phone: '', name: '', message: '', timestamp: null };
 
-  // Obtener timestamp del primer mensaje
-  const timestamp = messages[0].data?.timestamp || Date.now() / 1000;
+  // Obtener timestamp del mensaje parseado o usar timestamp actual
+  const timestamp = humanInfo.timestamp || Date.now() / 1000;
   const date = new Date(timestamp * 1000);
 
-  // Obtener último mensaje
-  const lastMessage = messages[messages.length - 1];
-  const lastTimestamp = lastMessage.data?.timestamp || timestamp;
+  // Calcular duración de la conversación extrayendo timestamps de todos los mensajes humanos
+  const humanTimestamps = messages
+    .filter(m => m.type === 'human')
+    .map(m => parseHumanMessage(m.data?.content || '').timestamp)
+    .filter(t => t && !isNaN(t));
+
+  const lastTimestamp = humanTimestamps.length > 0
+    ? Math.max(...humanTimestamps)
+    : timestamp;
 
   // Calcular duración de la conversación
   const duration = lastTimestamp - timestamp; // en segundos

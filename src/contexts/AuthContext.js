@@ -1,7 +1,6 @@
 // src/contexts/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import authService from '../services/authService';
-import userService from '../services/userService';
 
 const AuthContext = createContext();
 
@@ -20,9 +19,11 @@ export function AuthProvider({ children }) {
 
       if (token) {
         try {
-          // Intentar obtener los datos del usuario
-          const userData = await userService.getCurrentUserData();
-          setCurrentUser(userData);
+          // Obtener usuario desde localStorage
+          const userData = authService.getCurrentUser();
+          if (userData) {
+            setCurrentUser(userData);
+          }
         } catch (error) {
           // Si hay error, limpiar token inválido
           authService.logout();
@@ -40,8 +41,8 @@ export function AuthProvider({ children }) {
       const result = await authService.login(username, password);
 
       if (result.success) {
-        // Obtener datos del usuario después del login
-        const userData = await userService.getCurrentUserData();
+        // Obtener datos del usuario desde localStorage (guardados por authService)
+        const userData = authService.getCurrentUser();
         setCurrentUser(userData);
         return { success: true };
       }

@@ -123,10 +123,10 @@ const ExecutiveDashboard = () => {
   const peakHoursData = getPeakHours(filteredChats, 10);
 
   const statusData = [
-    { name: 'Abiertas', value: kpis?.openConversations || 0 },
-    { name: 'Ganadas', value: kpis?.wonConversations || 0 },
-    { name: 'Perdidas', value: kpis?.lostConversations || 0 },
-    { name: 'Pendientes', value: kpis?.pendingConversations || 0 },
+    { name: 'Abiertas', value: kpis?.openConversations || 0, color: '#3b82f6' },
+    { name: 'Ganadas', value: kpis?.wonConversations || 0, color: '#22c55e' },
+    { name: 'Perdidas', value: kpis?.lostConversations || 0, color: '#ef4444' },
+    { name: 'Pendientes', value: kpis?.pendingConversations || 0, color: '#f97316' },
   ].filter((item) => item.value > 0);
 
   return (

@@ -20,6 +20,7 @@ apiClient.interceptors.request.use(
     const token = localStorage.getItem('authToken');
     if (token) {
       config.headers.Authorization = `Token ${token}`;
+      config.headers['header-auth-integra'] = 'Leonardo'; // Header adicional requerido
     }
     return config;
   },
