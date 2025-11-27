@@ -1,19 +1,17 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { FaChartBar, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { FaChartBar, FaLock, FaUser } from 'react-icons/fa';
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    username: '',
     password: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login, register } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -30,34 +28,18 @@ export default function Login() {
     setLoading(true);
 
     try {
-      let result;
-      if (isLogin) {
-        result = login(formData.email, formData.password);
-      } else {
-        if (!formData.name) {
-          setError('Por favor ingresa tu nombre');
-          setLoading(false);
-          return;
-        }
-        result = register(formData.name, formData.email, formData.password);
-      }
+      const result = await login(formData.username, formData.password);
 
       if (result.success) {
-        navigate('/');
+        navigate('/dashboard');
       } else {
-        setError(result.error);
+        setError(result.message || 'Credenciales inválidas');
       }
     } catch (err) {
       setError('Ocurrió un error. Por favor intenta de nuevo.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
-  };
-
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
-    setError('');
-    setFormData({ name: '', email: '', password: '' });
   };
 
   return (
@@ -68,13 +50,9 @@ export default function Login() {
             <div className="LoginLogo">
               <FaChartBar size={32} />
             </div>
-            <h1 className="LoginTitle">
-              {isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
-            </h1>
+            <h1 className="LoginTitle">Dashboard de Gestión de Chats</h1>
             <p className="LoginSubtitle">
-              {isLogin
-                ? 'Ingresa tus credenciales para acceder'
-                : 'Completa el formulario para registrarte'}
+              Ingresa tus credenciales para acceder
             </p>
           </div>
 
@@ -85,35 +63,19 @@ export default function Login() {
               </div>
             )}
 
-            {!isLogin && (
-              <div className="FormGroup">
-                <label className="FormLabel">
-                  <FaUser size={14} /> Nombre
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="FormInput"
-                  placeholder="Tu nombre completo"
-                  required={!isLogin}
-                />
-              </div>
-            )}
-
             <div className="FormGroup">
               <label className="FormLabel">
-                <FaEnvelope size={14} /> Email
+                <FaUser size={14} /> Usuario
               </label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                name="username"
+                value={formData.username}
                 onChange={handleChange}
                 className="FormInput"
-                placeholder="tu@email.com"
+                placeholder="Tu nombre de usuario"
                 required
+                autoComplete="username"
               />
             </div>
 
@@ -129,37 +91,22 @@ export default function Login() {
                 className="FormInput"
                 placeholder="••••••••"
                 required
+                autoComplete="current-password"
               />
             </div>
-
-            {isLogin && (
-              <div className="FormForgot">
-                <Link to="/forgot-password" className="ForgotLink">
-                  ¿Olvidaste tu contraseña?
-                </Link>
-              </div>
-            )}
 
             <button
               type="submit"
               className="LoginButton"
               disabled={loading}
             >
-              {loading ? 'Cargando...' : (isLogin ? 'Ingresar' : 'Crear Cuenta')}
+              {loading ? 'Iniciando sesión...' : 'Ingresar'}
             </button>
           </form>
 
           <div className="LoginFooter">
-            <p>
-              {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
-              {' '}
-              <button
-                onClick={toggleMode}
-                className="ToggleLink"
-                type="button"
-              >
-                {isLogin ? 'Regístrate' : 'Inicia sesión'}
-              </button>
+            <p className="login-hint">
+              Usuario de prueba: <strong>ramrez</strong> | Contraseña: <strong>ramrez</strong>
             </p>
           </div>
         </div>
